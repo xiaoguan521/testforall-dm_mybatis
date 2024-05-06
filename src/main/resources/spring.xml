@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--<context:component-scan base-package="com.tjise.bean"/>-->
+    <!-- 加载数据库连接信息的属性文件 -->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!-- 配置Druid数据源的Bean -->
+    <bean id="dataSource" class="org.apache.ibatis.datasource.pooled.PooledDataSource">
+        <!-- 配置数据源信息，驱动，url，连接的账号密码等 -->
+        <property name="driver" value="${driver}" />
+        <property name="url" value="${url}" />
+        <property name="username" value="${username123}" />
+        <property name="password" value="${password123}" />
+    </bean>
+<!--    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">-->
+
+<!--        <property name="driverClassName" value="${driver}"/>-->
+<!--        <property name="url" value="${url}"/>-->
+<!--        <property name="username" value="${username}"/>-->
+<!--        <property name="password" value="${password}"/>-->
+
+<!--    </bean>-->
+<!--    <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">-->
+<!--        <property name="dataSource" ref="dataSource"/>-->
+<!--    </bean>-->
+    <!-- 配置SessionFactory的Bean -->
+    <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
+
+        <!-- 注入数据源 -->
+        <property name="dataSource" ref="dataSource"/>
+
+        <!-- 指定MyBatis配置文件的位置 -->
+        <property name="configLocation" value="classpath:mybatis.xml"/>
+
+        <!-- 给实体类起别名 -->
+<!--        <property name="typeAliasesPackage" value="com.tjise.entity"/>-->
+
+    </bean>
+
+    <!-- 配置mapper接口的扫描器，将Mapper接口的实现类自动注入到IoC容器中
+     实现类Bean的名称默认为接口类名的首字母小写 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+<!--        <property name="basePackage" value="com.baomidou.mybatisplus.samples.quickstart.mapper"/>-->
+        <!-- basePackage属性指定自动扫描mapper接口所在的包 -->
+        <property name="basePackage" value="cn.test.mybatis.Dao"/>
+
+    </bean>
+</beans>

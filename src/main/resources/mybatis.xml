@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- mybatis核心配置，用于配置相关数据源以及连接池等信息，以及实体类的别称映射，插件配置等等 -->
+<configuration>
+
+    <!-- resource可以实现从外置的配置文件读取。例如sb的a.properties -->
+    <!-- 配置数据源环境，default指定默认的数据源 -->
+    <properties resource="jdbc.properties" >
+        <!-- ognl无法使用全局变量 -->
+        <property name="aa" value="bb"/>
+<!--        <property name="dd" value="${}"/>-->
+    </properties>
+<!--    <properties resource="jdbc.properties" />-->
+    <settings>
+        <!--这个配置使全局的映射器(二级缓存)启用或禁用缓存-->
+        <setting name="cacheEnabled" value="true" />
+    </settings>
+    <!-- 指定实体类的别名，方便在mapper配置中进行引用 -->
+    <typeAliases>
+        <!-- 方法1、定义一个alias别名，缺点在于需要一个实体类分别指定。ps:ognl无法使用别名 -->
+<!--        <typeAlias type="edu.nf.ch01.entity.Users" alias="user" />-->
+<!--        <typeAlias type="cn.test.mybatis.utils.TestUtil" alias="sqlutil" />-->
+        <!-- 方法2、也可以使用package来给某个包下面的所有实体类自动创建别名，
+        自动创建的别名规则是类的类名并将首字母改为小写 -->
+        <package name="cn.test.mybatis.bean"/>
+        <!--<package name="cn.test.mybatis"/>-->
+        <!--<package name="cn.test.easyexcel.mybatispag"/>-->
+        <!-- 方法3、直接在类上@Alias("user") -->
+    </typeAliases>
+<!--    <environments default="mysql">-->
+<!--        &lt;!&ndash; 创建一个MySQL的数据源环境，id就叫mysql &ndash;&gt;-->
+<!--        <environment id="mysql">-->
+<!--            &lt;!&ndash; 配置事务管理，这里有JDBC和MANAGED两个值-->
+<!--             JDBC：使用本地jdbc的事务-->
+<!--             MANAGED：mybatis不参与事务管理，由运行容器来管理事务&ndash;&gt;-->
+<!--            <transactionManager type="JDBC"/>-->
+<!--            &lt;!&ndash; 配置数据源，type指定获取连接的方式，有以下几个值：-->
+<!--             POOLED：使用mybatis自带的数据库连接池（方便连接的复用）-->
+<!--             UNPOOLRF：不使用连接池，而是每次请求都从数据库去获取连接-->
+<!--              JMDI：通过查找JNDI树去获取数据源对象，通常结合web容器或者EJB容器来配置 &ndash;&gt;-->
+<!--            <dataSource type="POOLED">-->
+<!--                &lt;!&ndash; 配置数据源信息，驱动，url，连接的账号密码等 &ndash;&gt;-->
+<!--                <property name="driver" value="${driver}" />-->
+<!--                <property name="url" value="${url}" />-->
+<!--                <property name="username" value="${username}" />-->
+<!--                <property name="password" value="${password}" />-->
+<!--            </dataSource>-->
+<!--        </environment>-->
+<!--    </environments>-->
+    <databaseIdProvider type="DB_VENDOR">
+        <property name="MySQL" value="mysql" />
+        <property name="Oracle" value="oracle" />
+    </databaseIdProvider>
+    <!-- 指定mapper配置文件 -->
+<!--    <mappers>-->
+<!--        <mapper class="cn.test.mybatis.Dao.CsSendP2pMessageInfoRepository"/>-->
+<!--    </mappers>-->
+</configuration>
